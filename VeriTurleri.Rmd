@@ -1,0 +1,684 @@
+---
+title: "Veri turleri"
+author: "Matematiksel Evrim Yaz Okulu"
+date: "7 Eylul 2015"
+output: beamer_presentation
+---
+
+##Oturum programi
+
+- Veri turleri     
+     + Vektorler     
+     + Matrisler     
+     + Diziler     
+     + Listeler     
+     + Veri cerceveleri     
+     + Faktorler
+    
+- Egzersiz
+
+##Vektorler
+
+Vektor: ayni turde degerlerden olusan bir dizi.
+```{r}
+x <- c(2, 4, 8, 16) # numerik vektor
+x
+```
+
+Burada `c()` ingilizcedeki "concatenate" (siralamak, baglamak) sozcugunden gelir. `c()` fonksiyonu degerleri bir vektore (veya listeye) sirayla dizen bir fonksiyondur. 
+
+##Vektor elemanlarina ulasma
+- Konsola `x[1]` yazarak ilk, `x[4]` yazarak 4.vektor elemanina ulasabilirsiniz 
+
+> R'da indislerin 0'dan degil, 1'den basladigina dikkat!
+
+- `x[-4]` yazinca hangi elemana ulastiniz?
+\vspace{\baselineskip}
+- 2.ve 4. elemanlara ayni anda ulasmak icin tek bir komut nasil verirsiniz?
+
+
+```{r cevap, echo=FALSE, eval=FALSE}
+x[c(2,4)]
+```
+
+
+## Vektorler
+
+```{r}
+a <- c(1,2,5.3,6,-2,4) # numerik vektor
+a
+```
+
+Araya yeni bir eleman eklemek veya aradan bir eleman cikarmak icin vektoru yeniden atamaniz gerekir:
+
+```{r}
+a <- c(a[1:3],200,a[4:6]) # 6'dan once 200
+a
+```
+
+## Karakter ve lojik vektorler
+
+Bir vektorun tum elemanlari ayni turde olmalidir: numerik, karakter, lojik vb. 
+
+
+```{r}
+b <- c("bir","iki","uc") # karakter vektor
+b
+# bir nesnenin ne turde veri depoladigini ogrenmek icin 
+mode(b)
+c <- c(TRUE,TRUE,TRUE,FALSE,TRUE,FALSE) # lojik
+mode(c)
+
+```
+
+## Vektor aritmetigi
+
+Islecler vektorlere eleman-eleman etki eder:
+```{r}
+x <- c(2, 4, 8, 16)
+2*x
+y <- c(-7, -8, -10, 45)
+x+y
+x*y 
+```
+
+## Geri dongu
+
+R kisa olan vektoru, uzun olana esitlenene kadar tekrar ederek (recycling) islemi gerceklestirir: 
+```{r}
+# x={2, 4, 8, 16}
+x + c(-7,-8)
+x^c(1,0,-1)
+2*x
+```
+
+## Vektorlerde karsilastirma
+
+```{r}
+# x={2, 4, 8, 16}
+x > 9 
+(x > 9) | (x < 20) 
+```
+```{r}
+x[x>9]   # elemana ulasmak icin
+```
+```{r}
+which(x > 9) # indise ulasmak icin
+```
+
+## Vektorlerde karsilastirma
+
+`%in%` operatoruyle bir veya daha fazla degerin, bir vektorun elemani olup olmadigini karsilastirabilirsiniz:
+```{r}
+# %in% soldaki vektorun her bir elemaninin
+# sagdaki vektorun bir elemani olup olmadigini test eder
+c(3,1:5) %in% c(3,5)
+
+```
+
+
+## Iki vektor karsilastirmasi
+
+Iki vektoru butun halde karsilastirmak icin `identical()` (tam esitlik) veya `all.equal()` (yakin esitlik) fonksiyonlarini kullanabilirsiniz:
+```{r}
+identical(c(0.5-0.3,0.3-0.1),c(0.3-0.1,0.5-0.3))
+all.equal(c(0.5-0.3,0.3-0.1),c(0.3-0.1,0.5-0.3))
+```
+Neden? Cunku...
+
+## Kesirli sayi (Double) vs. Tam sayi (Integer)
+
+- Yuvarlama hatalari kayan nokta matematiginde birikir 
+(daha detayli okuma icin http://floating-point-gui.de/basic/):       
+
+```{r}
+0.45==0.15*3
+0.45-0.15*3
+options(digits = 20)
+0.15*3
+```
+
+## Yuvarlama hatasi
+
+```{r}
+(0.5 - 0.3) == (0.3 - 0.1) # tam esitlik
+options(digits = 20)
+0.5 - 0.3
+0.3 - 0.1
+all.equal(0.5-0.3, 0.3-0.1) # yakin esitlik
+```
+
+## Degiskenimin turu ne?
+
+- R'a bir sayi girdiginizde, ondaligi 0 olan bir kesirli sayi yazmis olursunuz:  `typeof()` verinizin turunu geri dondurur: 
+
+```{r}
+typeof(7)
+is.integer(7)
+is.double(7)
+is.integer(as.integer(7)) 
+```
+
+
+## is.character()
+```{r}
+is.character(7)
+is.character("7")
+is.character("seven")
+is.na("seven")
+```
+
+## as.character()
+```{r}
+as.character(5/6)
+as.numeric(as.character(5/6))
+6*as.numeric(as.character(5/6))
+5/6 == as.numeric(as.character(5/6)) # neden? ;)
+```
+
+
+## Vektorlerle islemler
+
+Fonksiyonlar vektorleri degisken olarak kabul eder:
+
+- `mean()`, `median()`, `sd()`, `var()`, `max()`, `min()`, `length()`, `sum()`: tek bir sayi dondurur
+- `sort()` (siralanmis) bir vektor dondurur
+```{r}
+# x={2, 4, 8, 16}
+sort(x,decreasing=T)
+```
+- `hist()` vektoru alir ve histogram cizer
+- `summary()` numerik vektorlere uygulandiginda 5 sayilik ozet verir
+
+## Komuta zinciri
+
+- Biri, digerinin ciktisini girdi olarak alan bircok komutu birbirine baglayabilirsiniz: 
+
+```{r}
+max(x)
+min(x)
+sum(min(x),max(x))
+```
+
+
+
+## Adlandirma
+
+
+```{r}
+# x={2, 4, 8, 16}
+# vektor elemanlarina isim vermek icin
+names(x) <- c("v1","sen","ben","v4")
+names(x)
+x
+x[c("v4","sen")]
+```
+
+## Siralama
+```{r}
+#isimleri alfabetik siralamak icin
+sort(names(x))
+which(names(x)=="ben")
+#vektoru isimlere gore siralamak icin x={2, 4, 8, 16}
+x[order(names(x))]
+which(names(x[order(names(x))])=="ben")
+```
+
+## Bos vektor
+
+n elemanli bos vektor yaratmak icin: `vector(length=n)`
+```{r}
+bos.bir.vektor <- vector(mode="numeric",length=14)
+bos.bir.vektor
+bos.bir.vektor[1] <- 55
+bos.bir.vektor[2] <- 75
+bos.bir.vektor
+```
+
+## Vektor olusturmak
+
+`:` operatoru ile
+```{r}
+t<-c(1:5) # ya da dogrudan t<-1:5
+t
+```
+Oncelik kurallarina dikkat:
+```{r}
+1:5-1
+```
+Iki nokta operatoru cikarma isleminden onceliklidir. R bu komutla, once `1:5`'i hesaplar, sonra bu hesaptam 1 cikarir. 
+
+## Vektor olusturmak
+`seq()` operatoru ile
+```{r}
+t<-seq(from=12,to=30,by=3)
+t
+```
+`rep()` operatoru ile
+```{r}
+t <- rep(NA, 10)
+t
+t <- rep(c(1,2,3), times=3) 
+t <- rep(1:3, times=c(5,4,3))
+t <- rep(1:3, each=3)
+```
+
+
+## NA
+```{r}
+v <- c(88,NA,12,168,13)
+v
+length(v)
+mean(v)
+mean(v, na.rm=T) # R'a NA'lari atlamasini soyleyebiliriz
+```
+
+## NULL
+```{r}
+v <- c(88,NULL,12,168,13)
+v
+length(v)
+mean(v) # R NULL'lari dogrudan atlar
+```
+> NULL'u vektorleri sifirdan insa etmek icin kullanabilirsiniz (`z <- NULL`) 
+
+## Filtreleme
+
+
+```{r}
+z <- c(5,2,-3,8)
+w <- z[z*z > 8] # z[c(TRUE,FALSE,TRUE,TRUE)]
+w
+z[z > 3] <- 0
+z
+```
+
+```{r}
+v <- c(88,NA,12,168,13)
+subset(v,v > 50) # v[v > 50]'dan farki ne?
+```
+
+## Mini Egzersiz
+
+1. Hem pozitif hem de negatif degerlerden olusan bir vektor olusturun.
+\vspace{\baselineskip}
+2. Tum negatif degerleri pozitife cevirin.
+
+## Matrisler
+
+Matrisler, R'da sutunlar halinde tutulan vektorlerdir. 
+```{r}
+m <- matrix(c(1,2,3,4,5,6),nrow=3,ncol=2)
+m
+
+# peki ya bu?
+m <- matrix(c(1,2,3,4,5,6),nrow=3,ncol=2,byrow=TRUE)
+
+dim(m) # matrisin boyutlarini verir
+# ayrica bkz. nrow(m), ncol(m)
+```
+
+## Matris indisleri
+
+`m[i,j]` : i. satir, j. sutun      
+
+```{r}
+m[1,] # belirtilmeyen indis tumu demektir 
+m[1:2,2] # ilk iki satir, 2. sutun
+
+# alt matrislere yeni degerler atama
+m[c(1,3),] <- matrix(c(1,1,8,12),nrow=2) 
+m 
+```
+
+## Matris elemanlari
+
+Matris degerlerini ayri ayri da doldurabilirsiniz:
+```{r}
+m <- matrix(nrow=3,ncol=2)
+m[1,1]<- 1
+m[2,1]<- 2
+m[3,1]<- 3
+m[ ,2]<- c(4,5,6)
+m
+```
+
+## Geri dongu
+
+```{r}
+m+c(1,2)
+```
+
+\[ 
+=
+\left( \begin{array}{ccc}
+1 & 4 \\
+2 & 5 \\
+3 & 6 \end{array} \right)
++  
+\left( \begin{array}{ccc}
+1 & 2 \\
+2 & 1 \\
+1 & 2 \end{array} \right)\] 
+
+## Matris islemleri
+
+```{r}
+m*m # dogrudan carpim
+m2 <- matrix(c(1,2,3,4,5,6),nrow=2,ncol=3)
+# matris carpimi icin
+M <- m %*% m2 # [3x3]'luk matris verir
+```
+
+## Matris islemleri
+
+```{r,eval=FALSE}
+# transpoze
+t.M <- t(M)
+# diyagonal
+diag(M)
+
+# Ozdeger (eigenvalue)
+eigen(M)$values
+# Ozvektor (eigenvector)
+eigen(M)$vectors
+
+# lambda
+library(popbio)
+A<-matrix(c(0,0,2,.3,0,0,0,.6,0), nrow=3,byrow=TRUE)
+lambda(A)
+eigen.analysis(A)
+```
+
+## Matrislerde filtreleme
+
+Vektorlerdekine benzer:
+```{r}
+m
+m[,2] >= 5
+m[m[,2] >= 5,]
+```
+
+
+
+## Matris boyutlarini degistirmek icin
+
+`cbind()` sutun birlestirir, `rbind()` satir birlestirir:
+```{r}
+m <- cbind(c(1,1,1),m,c(2,2,2))
+m
+m <- rbind(c(9,9,9,9),m)
+m
+```
+
+## Bir not!
+
+Istenmeyen boyut kaybindan kacinmak icin:
+```{r}
+z <- matrix(1:8,nrow=4)
+z
+r <- z[2,]
+r
+```
+
+## 
+```{r}
+attributes(z)
+is.matrix(z)
+attributes(r)
+is.matrix(r)
+is.vector(r)
+```
+
+## 
+```{r}
+str(z)
+str(r)
+r <- z[2,, drop=FALSE]
+str(r)
+dim(r)
+```
+
+## Sutun ve satir isimlendirme
+
+```{r}
+colnames(m) <- c("S.a","S.b","S.c","S.d")
+rownames(m) <- c("S1","S2","S3","S4")
+m
+```
+Daha sonra satir ve sutunlara, isimleriyle de ulasabilirsiniz:
+```{r}
+m[c("S3","S4"),c("S.b","S.d")]
+```
+
+## *apply() fonksiyon ailesi
+
+
+```{r, eval=FALSE}
+apply(x,yon,f,farg)
+```
+
+- x : matris.
+- yon, 1: satir, 2: sutun
+- f : uygulanacak fonksiyon
+- farg :  fonksiyona yonlendirilecek argumanlar 
+
+> `apply()`'da `mean()` gibi R'in yerlesik fonksiyonlarini kullanabileceginiz gibi kendi yazdiklarinizi da kullanabilirsiniz. 
+
+## 
+```{r}
+m
+apply(m,2,sum) # apply(x,yon,f,farg)
+colSums(m)
+```
+
+
+
+## Diziler (Arrays)
+
+```{r}
+x <- c(1:18)
+x.arr <- array(x,dim=c(3,3,2))
+x.arr
+```
+
+
+## Listeler
+
+Liste: Verileri ayni turde olmasi gerekmeyen degerler dizisi 
+```{r}
+Kuslar <- list(Tur="Ciconia ciconia", 
+                  Cinsiyet="Erkek", Yas=5, Yavrulama=T) 
+Kuslar
+```
+
+## Liste Indisleri
+
+There are three ways to access an individual component of a list:
+```{r}
+Kuslar$Yas
+Kuslar[["Yas"]]
+Kuslar[[3]]
+```
+
+## Liste Indisleri
+
+- Tek kose parantez `[ ]`: orjinal listenin bir alt-listesini dondurur
+```{r}
+class(Kuslar["Yas"])
+```
+
+- Cift kose parantez `[[ ]]`: dogrudan o bilesene ulasir ve o bilesenin turunde deger dondurur
+```{r}
+class(Kuslar[["Yas"]])
+```
+
+
+## Listeye Ekleme/Listeden Cikarma
+Ekleme:
+```{r, eval=FALSE}
+Kuslar$Agirlik <- 3.5 # etiketle ekleme
+Kuslar[[5]]<-3.5 # sadece indisle ekleme
+# ayni anda birden fazla
+Kuslar <-
+  c(Kuslar, Gocmen=TRUE,KorumaStatusu="LC")
+```
+
+Cikarma:
+```{r, eval=FALSE}
+Kuslar$Yuvalama <- NULL # NULL ile
+length(Kuslar) <- 3 # keserek
+```
+
+## lapply() 
+
+`lapply()` (*list apply*) matrislerdeki `apply()` benzeri, yine bir liste dondurur function:
+
+```{r}
+listem <- list(1:3,25:29)
+lapply(listem, median)
+```
+Bir listeyi vektore donusturmek isterseniz `unlist()` fonksiyonunu kullanabilirsiniz, bu `lapply` ciktisi icin de gecerlidir:
+```{r}
+unlist(lapply(list(1:3,25:29), median))
+```
+## sapply()
+
+`lapply()`in dondurdugu liste yerine matris veya vektor dondurmesini isterseniz `sapply()` (*simplified [l]apply*) fonksiyonunu kullanabilirsiniz:
+
+```{r}
+sapply(listem, median)
+sapply(listem, median, simplify = FALSE)
+```
+
+
+
+## Veri cercevesi (dataframe)
+
+
+-Veri cercevesi, bilesenleri es uzunlukta vektorler olan bir listedir 
+
+```{r}
+Tur <- c("C. ciconia","C. nigra", "E. asiaticus")
+Cinsiyet <- c("Male","Male","Female")
+Yas <- c(5,7,2)
+Yavrulama <- c(TRUE, TRUE, FALSE)
+Kuslar<- data.frame(Tur, Cinsiyet, Yas, Yavrulama,
+                       stringsAsFactors=FALSE)
+Kuslar
+```
+
+## stringsAsFactors
+```{r}
+Kuslar<- data.frame(Tur, Cinsiyet, Yas, Yavrulama,
+                       stringsAsFactors=FALSE)
+```
+- `stringsAsFactors` argumani, otomatikman `TRUE`'dur.   
+- Dolayisiyla eger bir karakter vektorunden veri cercevesi yaratirsak (bu ornekteki `Tur` ve `Cinsiyet` gibi), R bunlari otomatik olarak faktore cevirecektir. 
+
+
+## Veri cercevesi elemanlari
+```{r}
+# liste-benzeri:
+Kuslar$Tur
+# matris-benzeri: 
+Kuslar[,1]
+str(Kuslar) # yapisini gosterir
+```
+
+## Matris-benzeri islemler:
+
+**Altkume:**
+```{r, eval=FALSE}
+Kuslar[,3,drop=FALSE]
+```
+**Filtreleme:**
+```{r, eval=FALSE}
+Kuslar[Kuslar$Yavrulama == TRUE,]
+```
+**Satir-sutun ekleme:**
+```{r, eval=FALSE}
+rbind(Kuslar,c("C. nigra","Female",6,TRUE))
+cbind(Kuslar,KorumaSt=c("LC","LC","NT"))
+```
+Ege tum sutunlar ayni turdeyse `apply()` veri cerceveleri uzerinde de calisir.
+
+## lapply() ve sapply()
+
+```{r}
+lapply(Kuslar,sort)
+
+#sapply(Kuslar,sort)
+```
+
+## Veri cercevelerini birlestirmek
+
+Ortak degiskenler uzerinden iki veri cercevesini birlestirebilirsiniz.
+```{r, echo=FALSE}
+Tur <- c("M. leucocephala","C. nigra","C. ciconia")
+KorumaSt<- c("NT","LC","LC")
+Kuslar2<- data.frame(Tur,KorumaSt,
+                       stringsAsFactors=FALSE)
+```
+```{r}
+Kuslar
+Kuslar2
+
+```
+## 
+- R iki veri cercevesinde de ortak degiskeni bulur, bu degiskende ayni degere sahip olan satirlari secip birlestirir (*C. nigra*, *C. ciconia*)
+```{r}
+merge(Kuslar,Kuslar2)
+```
+**ya da**
+```{r}
+merge(Kuslar,Kuslar2,all=TRUE)
+```
+## Faktorler
+
+- Istatistikte belli bir nitelik ya da nicelik belirten ancak numerik olmayan kavramlarla da hesap yapilir. Ornegin kategoriler : var-yok, buyuk-orta-kucuk, evet-hayir-kararsiz     
+
+
+- R'da bu kategorik degerler faktor olarak tanimlanabilir ve faktorler sadece onceden tanimlanmis belli degerleri alabilirler. Ornegin cinsiyet: "D" veya "E" 
+
+
+- Bir faktorun alabilecegi degerler kumesine **seviye** (level) denir.
+
+- Bir faktore seviyeler kumesinde olmayan bir deger atayamazsiniz ama yeni bir seviye ekleyebilirsiniz. 
+
+## 
+```{r}
+Evreler <- c(rep("civciv",7), rep("genc", 9), 
+            rep("yetiskin", 13)) 
+Evreler <- factor(Evreler)
+summary(Evreler)
+levels(Evreler)
+```
+Deneyin:
+```{r, eval=FALSE}
+Evreler[1] <- "yavru" 
+```
+
+
+## 
+```{r, echo=FALSE}
+Evreler <- c(rep("civciv",7), rep("genc", 9), 
+            rep("yetiskin", 13)) 
+Evreler <- factor(Evreler)
+```
+```{r}
+# yeni bir seviye eklemek icin
+levels(Evreler) <- c(levels(Evreler), "yavru") 
+Evreler[1] <- "yavru" 
+Evreler
+# varolan bir seviyeyi degistirmek icin
+levels(Evreler)[2] <- "juvenil" 
+levels(Evreler)
+```
+
+
+## Uygulama 1
+
+> Veri egzersizlerinizi Uygulamalar klasorunde, 'Uygulamalar1.Rmd' dosyasinda bulabilirsiniz.
+ 
+
