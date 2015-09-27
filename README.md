@@ -18,7 +18,7 @@ Ders notlarini, kendi bilgisayarinda calisirken, ilgili kodlari calistirmadan on
 
 Bu notlarin hazirlanmasinda yararlanilan kaynakca ve daha fazla R bilgisi isin "Kaynakca.txt" dosyasina goz atabilirsin.
 
-Bu depoyu (repository) oldugu gibi bilgisayarina indirip calismaya baslamak icin, sayfanin sag altinda gordugun "Download ZIP" dugmesine basabilirsin.
+Bu depoyu (repository) oldugu gibi bilgisayarina indirip calismaya baslamak icin, sayfanin sag kolonunun en altinda gordugun "Download ZIP" dugmesine basabilirsin.
 
 R'a keyifli bir baslangic dilerim.
 
