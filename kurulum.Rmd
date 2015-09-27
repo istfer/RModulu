@@ -1,0 +1,37 @@
+---
+title: "R kurulumu"
+author: "Matematiksel Evrim Yaz Okulu"
+date: "6-13 Eylül 2015"
+output: pdf_document
+---
+
+Merhaba!      
+
+Bu yaz Matematiksel Evrim Yaz Okulu'na gelmeden önce senden yapmanı istediğimiz bazı ufak şeyler var:
+
+**1 - R'ın yeni bir versiyonunu kurman**     
+    Bunun için [r-project.org](https://www.r-project.org/) sayfasına gidip sol çerçeveden [Download-CRAN](https://cran.r-project.org/mirrors.html) bağlantısına tıklaman gerekiyor. (Az önceki cümlede ilgili kelimelerin üzerine gelirsen, bu bağlantıların bu pdf'te köprülenmiş olduğunu göreceksin.)
+    
+  Bu listeden sana yakın bir yansıtmayı seçebilirsin (örn. [Pamukkale Üniversitesi'ninki](http://cran.pau.edu.tr/)).  
+    
+  Açılan sayfada bilgisayarının işletim sistemine göre bir bağlantıya tıklaman ve yönlendirmeleri takip etmen yeterli.  
+    
+**2 - RStudio'nun yeni bir versiyonunu kurman**
+ 
+ Bunun için [RStudio'nun yükleme sayfasına](https://www.rstudio.com/products/RStudio/) gidip "Desktop" ikonuna tıklaman ve ücretsiz RStudio Desktop versiyonunu indirip kurman yeterli.    
+ 
+ RStudio, R'ı rahatça kullanabilmeni sağlayan kullanıcı dostu bir arayüz, onu çok seveceksin.
+ 
+**3 - Sana gönderdiğimiz R'a başlangıç R markdown dosyasını çalıştırman**
+
+R markdown, bu pdf de dahil olmak üzere birçok dosya türünü oluşturmanı mümkün kılan bir sözdizimi işlemcisi. Biz de birçok ders notunu R markdown biçiminde paylaşacağız. Bunun en temel nedeni üzerinde çalışacağımız R kodlarını ve ilgili anlatımları bir araya getirebileceğimiz en derli toplu ortam olması, yeniden üretilebilirliği sayesinde R ile ilgili sunumlar ve raporlar hazırlarken büyük iletişim kolaylığı sağlaması.
+
+Bunun için az önce kurduğun RStudio'yu başlatman gerekiyor. Karşına üç (bu pencerelerin sayısı değişebilir, panik yok!) pencereli RStudio arayüzü açılacak. En üstteki araç çubuğunda sırasıyla "File" (Dosya) - "Open File" (Dosya Aç) düğmelerine tıklayıp sana gönderdiğimiz "RBaslangic.Rmd" R markdown dosyasını açman yeterli. Gerekli bilgilerin devamını RStudio'da açılan bu dosyadan okuyabilirsin. 
+
+
+
+**Kolay gelsin!**
+
+
+
+Lütfen soruların olursa, herhangi bir güçlük yaşarsan veya senin için açık olmayan bir şey varsa bizlere e-mail atmaktan çekinme: İstem Fer fer.istem@gmail.com, Tuba Bucak tubabucak@gmail.com
