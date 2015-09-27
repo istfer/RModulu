@@ -1,0 +1,573 @@
+---
+title: "Temel gorsellestirme"
+author: "Matematiksel Evrim Yaz Okulu"
+date: "8 Eylul 2015"
+output: beamer_presentation
+---
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=3.5, fig.height=2.75)
+```
+
+
+##Oturum programi
+
+- Temel gorsellestirme      
+    + Temel grafikler
+    + ggplot2
+    + Grafik ayrintilari
+    
+## Gorsellestirme
+
+- Verileri gorsellestirmek analiz etmeden once de sonra da onemli. 
+
+- Karmasik fikirleri netlik, kesinlik ve verimlilikle aktarabilmeli.
+
+- Aktardigi bilgi / Harcanan murekkep orani
+
+
+      
+## Cubuk grafik (Bar plot) 
+
+\begin{columns}\begin{column}{5cm} 
+  \begin{itemize}
+  \item Gorece kistili bir veri aktarimi gerceklestirir
+  \item Kategorik bir degiskenin dagilimini ve yogunlugunu gostermek icin kullanilabilir 
+  \item Surekli veriler icin bar grafik kullanilmaz
+  \end{itemize}
+\end{column}\begin{column}{6cm} 
+
+```{r,echo=FALSE, out.width =  '175px'}
+library(reshape2)
+mmtcars <- melt(mtcars, id=c(1:9,11)) 
+cmtcars <- dcast(mmtcars, value~variable, length)
+
+barplot(cmtcars$gear, 
+        names.arg = c(cmtcars$value),
+        main="Cubuk grafik",
+        xlab="gear", ylab="# of cars")
+```
+\end{column}\end{columns}
+
+## barplot{graphics}
+
+R'in temel grafik fonksiyonlariyla bar plot:
+```{r}
+iris.ortalama <- cbind(apply(iris3[,,1],2,mean),apply(iris3[,,2],2,mean),apply(iris3[,,3],2,mean))
+colnames(iris.ortalama) <- c("setosa","versicolor","virginica")
+
+barplot(iris.ortalama, beside=TRUE,
+        legend=rownames(iris.ortalama),
+        xlab="Tur", ylab="Ortalama")
+```
+
+
+## Pasta dilimi grafikler
+
+\begin{columns}\begin{column}{5cm} 
+  \begin{itemize}
+  \item Bar veya nokta grafikler pasta dilime tercih edilmelidir
+  \item Gozumuzun alanlari karsilastirmasi uzunluklari karsilastirmasindan daha zayifti
+  \item Pasta dilimi opsiyonlari R'da kisitlidir
+  \end{itemize}
+\end{column}\begin{column}{6cm} 
+
+```{r,echo=FALSE, out.width =  '175px'}
+slices <- c(10, 12,4, 16, 8)
+pct <- round(slices/sum(slices)*100)
+lbls <- c("US", "UK", "Australia", "Germany", "France")
+lbls2 <- paste(lbls, " ", pct, "%", sep="")
+pie(slices, labels=lbls2, col=rainbow(length(lbls2)),
+    main="Pasta Dilimi Grafik")
+```
+\end{column}\end{columns}
+
+## Histogram
+
+\begin{columns}\begin{column}{5cm}
+  \begin{itemize}
+  \item Surekli bir verinin dagilimini gorsellestirmek icin kullanilir 
+  \item Buyuk veri setlerinin grafik olarak ozetlenmesi icin kullanilabilir: dagilim, aykiri degerler, kayiklik, vb
+  \end{itemize}
+\end{column}\begin{column}{6cm} 
+```{r,echo=FALSE, out.width =  '155px'}
+x <- mtcars$mpg
+h<-hist(x,
+  breaks=12,  # specify bin number
+  col="red",  # color bins
+  xlab="Miles Per Gallon",
+  main="Histogram")
+abline(h=mean(h$counts),col="blue", lwd=2)
+box()
+```
+\end{column}\end{columns}
+
+## hist{graphics}
+```{r,eval=FALSE}
+TransVer <- read.table("TranskriptomVerisi.txt", 
+                       header=T,row.names = 1)
+TransVer[1:3,1:3]
+hist(TransVer[,1])
+hist(TransVer[,1][TransVer[,1]<100],
+     main="100'den kucuk degerlerin dagilimi")
+```
+
+
+## Box plot (Kutu Grafigi)
+\begin{columns}\begin{column}{7cm}
+  \begin{itemize}
+  \item Surekli veriler icin uygundur, verinin ozet degerlerini gorsellestirir: 
+      \begin{itemize}
+      \item minimum
+      \item yuzde 25'lik dilim
+      \item orta deger (yuzde 50'lik dilim)
+      \item yuzde 75'lik dilim
+      \item maksimum
+      \end{itemize}
+  \item Aykiri degerleri gosterebilir
+  \item Dagilimlari karsilastirmak icin idealdir
+  \end{itemize}
+\end{column}\begin{column}{7cm} 
+```{r,echo=FALSE, out.width =  '125px'}
+boxplot(mtcars$mpg, main="Box plot", ylab="Miles per Gallon")
+```
+\end{column}\end{columns}
+
+
+##boxplot{graphics}
+```{r}
+Iris.Petal.Width <- data.frame(set=iris[iris$Species=="setosa",]$Petal.Width,ver=iris[iris$Species=="versicolor",]$Petal.Width,vir=iris[iris$Species=="virginica",]$Petal.Width)
+boxplot(Iris.Petal.Width, main="Uc turun tac yapragi karsilastirmasi", ylab="Genislik (cm)")
+```
+
+## Dagilim veya sacilim grafigi
+\begin{columns}\begin{column}{5cm}
+  \begin{itemize}
+  \item Iki surekli veri arasindaki iliskiyi gorsellestirir 
+  \item Veri noktalarinin nerelerde bulundugunu gostermek icin idealdir
+  \item Verideki belli egilimler hemen gorunur
+  \end{itemize}
+\end{column}\begin{column}{6cm} 
+```{r,echo=FALSE, out.width =  '175px'}
+attach(mtcars)
+plot(wt, mpg,
+main="Sacilim grafigi",
+xlab="Car Weight (lbs/1000)",
+ylab="Miles Per Gallon ", pch=19)
+abline(lm(mpg~wt), col="red", lwd=2, lty=1)
+```
+\end{column}\end{columns}
+
+##plot{graphics}
+```{r}
+Kunduz <- read.table("KunduzPop.csv",header=TRUE,sep=";")
+plot(Kunduz$Year, Kunduz$Population, pch=20,
+     xlab="Yil",ylab="Populasyon")
+```
+
+
+## Cizgi grafik
+\begin{columns}\begin{column}{5cm}
+  \begin{itemize}
+  \item Sacilim grafigindeki noktalari birlestirdiginizde cizgi grafik elde edilir
+  \item Cizgi grafikler ozellikle zaman icinde gerceklesen degisimleri gostermek icin idealdir
+  \end{itemize}
+\end{column}\begin{column}{6cm} 
+```{r,echo=FALSE, out.width =  '175px'}
+t1 <- subset(Orange, Tree==1)
+plot(t1$age, t1$circumference,
+     xlab="Age (days)",
+     ylab="Circumference (mm)",
+     main="Cizgi grafik",
+     type="b")
+```
+\end{column}\end{columns}
+
+##plot{graphics}
+`type="l"`
+
+```{r}
+plot(Kunduz$Year, Kunduz$Population, type="l", col="red",
+     xlab="Yil",ylab="Populasyon")
+```
+
+
+## Baslik ve eksenler
+
+```{r, eval=FALSE}
+plot(Kunduz$Year, Kunduz$Population, 
+     type="b", # cizgi tipi
+     pch=20, # nokta tipi
+     col="blue", # cizginin ve noktalarin rengi
+     xlab="Yil", # x ekseni etiketi
+     ylab="Populasyon", # y ekseni etiketi
+     main="Kunduzlar") # grafigin adi
+
+```
+- `p` noktalar icin, `l` cizgiler icin, `b` ikisi birlikte...
+
+## Daha fazla cizgi ekleme
+
+- `plot` fonksiyonunu cagirdiktan sonra, `lines` fonksiyonunu cagirarak bir grafige birden fazla cizgi ekleyebilirsiniz
+
+```{r,echo=FALSE, out.width =  '175px'}
+t1 <- subset(Orange, Tree==1)
+t2 <- subset(Orange, Tree==2)
+plot(t1$age, t1$circumference,
+     xlab="Yas (gunler)",              
+     ylab="Govde cevresi (mm)",     
+     main="Portakal Agaci Buyume Grafigi",    
+     type="l")  
+lines(t2$age, t2$circumference, type="l", 
+      lty=2,      # cizgi tipi,  2: kesikli
+      col="red")  # renk tipi
+```
+
+## Daha fazla cizgi ekleme
+
+- `abline` ile duz cizgiler ekleyebilirsiniz
+```{r,echo=FALSE}
+plot(t1$age, t1$circumference,
+     xlab="Yas (gunler)",              
+     ylab="Govde cevresi (mm)",     
+     main="Portakal Agaci Buyume Grafigi",    
+     type="l")  
+lines(t2$age, t2$circumference, type="l", 
+      lty=2,      # cizgi tipi,  2: kesikli
+      col="red")  # renk tipi
+abline(h=mean(t1$circumference))
+abline(h=mean(t2$circumference),lty=2,col="red")
+```
+
+
+```{r,eval=FALSE}
+abline(h=mean(t1$circumference))
+abline(h=mean(t2$circumference),lty=2,col="red")
+```
+
+## Nokte ve yazi ekleme
+
+- `points` ile nokta `text` ile yazi ekleyebilirsiniz
+```{r,echo=FALSE}
+plot(t1$age, t1$circumference,
+     xlab="Yas (gunler)",              
+     ylab="Govde cevresi (mm)",     
+     main="Portakal Agaci Buyume Grafigi",    
+     type="l")  
+lines(t2$age, t2$circumference, type="l", 
+      lty=2,      # cizgi tipi,  2: kesikli
+      col="red")  # renk tipi
+abline(h=mean(t1$circumference))
+abline(h=mean(t2$circumference),lty=2,col="red")
+points(815,100,pch=20)
+text(980,90,"T1 ortalama")
+```
+
+
+```{r,eval=FALSE}
+points(815,100,pch=20)
+text(980,90,"T1 ortalama")
+```
+
+
+## Eksen limitlerini degistirme
+
+```{r, eval=FALSE}
+plot(t1$age, t1$circumference,
+     xlab="Yas (gunler)",              
+     ylab="Govde cevresi (mm)",     
+     main="Portakal Agaci Buyume Grafigi",    
+     type="l",
+     xlim=c(min(Orange$age),max(Orange$age)), # xlim=c(xmin, xmax)
+     ylim=c(min(Orange$circumference),max(Orange$circumference)))  
+lines(t2$age, t2$circumference, type="l", 
+      lty=2,      
+      col="red")  
+```
+
+## Gosterge (legend) ekleme
+
+```{r, eval=FALSE}
+t3 <- subset(Orange, Tree==3)
+ 
+lines(t3$age, t3$circumference, type="l", 
+      lty=4, lwd=5, # cizgi kalinligi
+      col=rgb(0, 1, 0))  # yesil demenin bir baska yolu
+legend("topleft", # gosterge pozisyonu
+        legend=c("t1","t2","t3"), # gosterge degerleri
+        lty=c(1,2,4), # tum cizgilerin tipleri
+        lwd=c(1,1,5), # tum cizgilerin kalinliklari
+        col=c('black', 'red', 'green'), # hepsinin renkleri
+        bty='n',  # gosterge etrafinda kutu olsun mu olmasin mi
+        cex=.75)  # karakter boyutlandirma faktoru
+```
+
+
+## ggplot2
+
+- Adini Leland Wilkinson'in, *The grammar of graphics* kitabindan alir.
+
+```{r,message=FALSE}
+library(ggplot2)
+```
+
+      + Cok yonlu     
+      + Temiz     
+      + Tutarli     
+      + Kaliteli
+      + Kullanimi yaygin
+      
+## Temel grafiklerle barplot
+```{r}
+iris.ortalama <- cbind(apply(iris3[,,1],2,mean),apply(iris3[,,2],2,mean),apply(iris3[,,3],2,mean))
+colnames(iris.ortalama) <- c("setosa","versicolor","virginica")
+
+barplot(iris.ortalama, beside=TRUE,
+        xlab="Tur", ylab="Ortalama")
+```
+
+## 
+
+- Eksenleri degistirmek icin verinin kendisini degistirmeniz gerekir: 
+```{r}
+barplot(t(iris.ortalama), beside=TRUE)
+```
+
+## Temel grafiklerle cizgi grafik
+
+
+```{r}
+plot(t1$age, t1$circumference,
+     xlab="Age (days)",              
+     ylab="Circumference (mm)",     
+     main="Orange Tree Growth",    
+     type="l")  
+lines(t2$age, t2$circumference, type="l", 
+      lty=2,      
+      col="red")  
+```
+
+> Ikinci (kesikli) zicgi gorunebilir limitin disina cikti     
+
+
+## ggplot2
+
+- `ggplot2`'ta veri istenilen formata bir kez getirildi mi tekrar degistirmeye gerek yoktur.      
+      + veri cercevesi (dataframe) zuerinde calisir      
+      
+- Uzun bicim (long format): cizdirilmek istenen her deisken kendine ait bir sutunda yer alir. 
+
+```{r}
+library(reshape2)
+iris.ortalama.uzun <- melt(iris.ortalama,varnames=c("Olcum","Tur"))
+iris.ortalama.uzun
+```
+
+## 
+- Once R'a:      
+      + *Tur*'u x eksenine `x=Tur`    
+      + *Olcum*'lere gore cubuklari renklendirmesini `fill=Olcum` 
+      + *value*'yu y eksenine `y=value` cizmesini soyluyoruz.
+- Sonra da, cubukolarak cizmesini soyluyoruz `geom_bar()`
+```{r,fig.height=2.25}
+ggplot(iris.ortalama.uzun, aes(x=Tur, y=value, fill=Olcum)) +
+        geom_bar(stat="identity", position="dodge")
+```
+
+
+
+##
+Eksen degistirmek icin:
+```{r}
+ggplot(iris.ortalama.uzun, aes(x=Olcum, y=value, fill=Tur)) +
+        geom_bar(stat="identity", position="dodge")
+```   
+
+##
+Cizgi grafik icin `geom_line()`
+```{r}
+ggplot(Orange, aes(x=age,y=circumference,color=Tree))+geom_line()
+```
+
+
+
+## Terminoloji
+
+**Data:** Ilgili dataframede sutunlar olarak tutulan degerler. 
+
+**Geoms:** Veriyi gorsellestirecek  geometrik nesneler (cubuk, cizgi, nokta vb.) 
+
+**Aesthetics:** Geom'larin gorsel ozellikleri (hangi eksene cizilsin, rengi ne olsun, sekli ne olsun) 
+
+**Scales:** Veri ve estetik arasindaki iletisimi saglayan kontroller (surekli bir y-ekseninde numerik degerlerden yuksek olanin yukarida olmasi gibi)
+
+**Guides:** Gorsel ozelliklere dair kontoller (etiketler, isaretcilerin ozellikleri vb.)
+
+
+
+## Basit bir deneme:
+
+1 - Veri, veri cercevesi olarak tutulmali         
+
+2 - Cizdirilecek degiskenlerin kendi sutunlari olmali. 
+
+
+```{r}
+dat <- data.frame(xval=1:4, yval=c(3,5,6,9), 
+                  group=c("A","B","A","B"))
+dat
+```
+
+## Basit bir deneme:
+
+Once `ggplot` nesnesini yaratiyoruz:
+```{r}
+g <- ggplot(dat, aes(x=xval, y=yval))
+```
+
+Burada cizdirilecek verileri `aes()` icine aldik:       
+- `x=xval` : `xval` sutununu *x* eksenine       
+- `y=yval` : `yval` sutununu *y* eksenine
+
+
+
+## Basit bir deneme:
+
+Sonra hangi geometrik ggplot nesnesiyle verimizi gorsellestirmek istedigimizi soyluyoruz 
+- sacilim grafigi icin `geom_point()`
+```{r}
+g + geom_point()
+```
+
+## Basit bir deneme:
+
+Noktalari grup degiskenine gore renklendirmek istersek `geom_point()` icinde de `aes()` tanimlayabiliriz: `colour=group` 
+```{r}
+g + geom_point(aes(colour=group))
+```
+
+
+##
+Bir sey cizdirmiyor (yani bir sutundaki degerleri kullanarak grafige bir bilgi eklemiyor) sadece estetik olarak renk degistirmek istiyorsak `aes()`'i kullanmamiza gerek yok: 
+
+>legend'in kaybolduguna dikkat edin
+```{r}
+g + geom_point(colour="blue")
+```
+
+##
+Olcekleri (Scales) de degistirebiliriz:
+
+```{r}
+g + geom_point(aes(colour=group)) +
+  scale_colour_manual(values=c("orange","forestgreen"))
+```
+
+  
+##
+Eksen limitlerini de degistirebiliriz:
+```{r}
+g + geom_point() + scale_x_continuous(limits=c(0,8))
+```
+
+
+
+
+## Sacilim grafigi
+
+```{r}
+ggplot(Kunduz, aes(x=Year, y=Population)) + geom_point()
+
+```
+
+
+
+## Baslik
+
+```{r}
+data("PlantGrowth")
+g <- ggplot(PlantGrowth, aes(x=group, y=weight)) + geom_boxplot()
+g + ggtitle("Farkli muameleler altinda \nbitki buyumesi") +
+  theme(plot.title = element_text(lineheight=.8, face="bold"))
+```
+
+## x-y eksen etiketleri
+```{r}
+# g + labs(x = "Deney grubu", y = "Agirlik (Kg)")
+g + theme(axis.title.x = element_blank()) +   # x-eksenini bos birakmak icin
+     ylab("Weight (Kg)")                       # y-eksenini etiketlemek icin
+```
+
+## x-y eksen etiketleri
+```{r}
+# Eksen etiketini "scale"" ile de koyabilirsiniz
+# x ekseni etiketi icin ayrilan boslugun durduguna dikkat
+g + scale_x_discrete(name="") +
+     scale_y_continuous(name="Weight (Kg)")
+```
+
+
+## x-y eksenlerini degistirmek icin
+```{r}
+g + coord_flip()
+```
+
+## Gosterge
+
+```{r}
+g <- ggplot(PlantGrowth, aes(x=group, y=weight, fill=group)) + geom_boxplot()
+# Legend koymamak icin
+g + guides(fill=FALSE)
+```
+
+## Gostergenin pozisyonu
+
+```{r}
+g + theme(legend.position="top")
+# g + theme(legend.position=c(1,0), legend.justification=c(1,0))
+# Gostergede yerlerin degistirilmesi
+# g + scale_fill_discrete(limits=c("trt1", "trt2", "ctrl"))
+```
+
+## Gosterge etiketinin degistirilmesi
+```{r}
+ # Gosterge basligini "Deney" koymak icin
+g + labs(fill="Deney")
+# Gostergeyi kaldirmak isterseniz
+# g + guides(fill=guide_legend(title=NULL))
+```
+
+## Mini egzersiz
+
+MASS paketinden `cabbages` verisini kullanarak:
+
+```{r}
+data(cabbages,package="MASS")
+```
+
+Farkli ekim cesitlerinin (cultivar) lahanalarin C Vitamini icerigine etkisini gorsel olarak karsilastirin.      
+
+Bu karsilastirmaya ekim tarihinin etkisini de dahil edin.     
+
+x-y eksenlerinin etiketlerini degistirin, grafiginize baslik ekleyin.
+
+## Daha fazla kaynak
+
+[R Graphics cookbook](http://www.cookbook-r.com/Graphs/)     
+
+[ggplot2 docs](http://docs.ggplot2.org/current/#)
+
+[Introduction to ggplot2 slides](http://dzchilds.github.io/aps-data-analysis-L1/index.html)
+
+
+[ggplot2 cheatsheet](http://zevross.com/blog/2014/08/04/beautiful-plotting-in-r-a-ggplot2-cheatsheet-3/)
+
+[Visualising spatial data in R tutorial](https://github.com/Robinlovelace/Creating-maps-in-R/blob/master/intro-spatial-rl.pdf)
+
+
+[ggplot2 mailing list](http://groups.google.com/group/ggplot2)
+
+[R Graph gallery](http://rgraphgallery.blogspot.de/)
+
+[Plotly R library](https://plot.ly/r/)
+
