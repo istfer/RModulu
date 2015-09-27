@@ -1,0 +1,203 @@
+---
+title: "Fonksiyonlar"
+author: "Matematiksel Evrim Yaz Okulu"
+date: "7 Eylul 2015"
+output: beamer_presentation
+---
+
+##Oturum programi
+
+- Kullanici tanimli fonksiyonlar     
+    + Fonksiyon yazma
+    + Kapsam kurallari
+
+- Uygulama
+
+## Fonksiyon
+
+> Bir takim degerleri girdi olarak aldiktan sonra, bir dizi hesaplama yapip geriye cikti degerleri donduren bir dizi komuta fonksiyon denir. 
+
+
+```{r}
+# Bir vektordeki tek sayilari sayan bir fonksiyon
+
+teksay <- function(x){ 
+  k <- 0
+  for(i in 1:length(x)) if (x[i] %% 2 == 1) k <- k+1
+  return(k) 
+}
+```
+
+## Fonksiyonun bildirimi
+```{r,eval=FALSE}
+# fonksiyonunuza istediginiz ismi verebilirsiniz
+teksay <- function(x){ 
+  ...
+  ...
+  ...
+}
+
+function(...) <- argumanlar bu parantezler icine
+```
+- `teksay()` tek bir arguman aliyor: numerik vektor `x`
+
+## Hesaplama ve cikti
+```{r,eval=FALSE}
+teksay <- function(x){ 
+  
+  # fonksiyon govdesi
+  k <- 0
+  for(i in 1:length(x)) if (x[i] %% 2 == 1) k <- k+1
+  
+  # hesaplanan degerin geri dondurulmesi
+  return(k) 
+}
+```
+-`return()` hesaplanan ciktinin ne oldugunu soyler. Eger ozellikle neyin dondurulmesi istendigi belirtilmemisse, fonksiyon en son hesaplanan degeri dondurur. 
+
+##
+> Ne zaman bir fonksiyon yazarsaniz, bir satir da olsa fonksiyonun amacini, aldigi argumanlari (girdileri) ve beklenen ciktilari yazmak faydali bir pratiktir!
+
+```{r}
+# Bir vektordeki tek sayilari sayan fonksyion
+# Girdiler: numerik vektor (x)
+# Ciktilar: bir tam sayi (k)
+teksay <- function(x){ 
+  k <- 0
+  for(i in 1:length(x)) if (x[i] %% 2 == 1) k <- k+1
+  return(k) 
+}
+benim.vektorum <- c(1,2,3,4,9,13)
+teksay(benim.vektorum)
+```
+
+
+## Kapsam kurallari
+
+- Sadece o fonksiyon govdesinde varolan bir degisken, o fonksiyon icin yereldir denir.
+
+- Ornegin `teksay()`'da, `k` ve `i` yerel degiskenlerdir. Fonksiyon geriye deger dondurdukten sonra kaybolurlar:
+
+```{r, error=TRUE}
+teksay(benim.vektorum)
+i
+k
+```
+
+## Kapsam kurallari
+
+- Fonskiyonun argumanlari (veya parametreleri) de yerel degiskenlerdir, bu ornekyeki `x` vektoru gibi.
+
+- Bu ornekte `teksay()` fonksiyonu, `x`'e atadigi vektor uzerinde islemleri gerceklestirir. `teksayi()`'i cagirdiktan sonra, `benim.vektorum` ayni kalir. 
+
+- `teksay()` fonksiyonunun kendisi global bir degiskendir.
+```{r}
+environment(teksay)
+# global olarak tanimlanmis bir fonksiyon 
+# diger fonksiyonlar tarafindan cagirilabilir
+```
+
+## Kapsam hiyerarsisi
+```{r}
+w <- 12
+f <- function(y) {
+  d <- 8
+  h <- function() return(d*(w+y))
+  return(h()) 
+}
+```
+- `w`, `f()`'e gore globaldir, `d` ve `h()` ise yereldir 
+- `f()` icin global olan, `h()` icin de globaldir
+- `f()` icin yerel olan, `h()` icin globaldir
+
+```{r}
+f(2)
+```
+
+## assign(.GlobalEnv)
+
+-Eger yapmaniz sartsa, bir degiskenin kapsamini fonksiyon icinden degistirebilirsiniz:
+```{r}
+teksay <- function(x){ 
+  k <- 0
+  for(i in 1:length(x)) if (x[i] %% 2 == 1) k <- k+1
+  assign("Global.k",k, envir=.GlobalEnv) 
+}
+teksay(benim.vektorum)
+Global.k
+```
+
+## Alt-fonksiyonlar
+Hemen her amac icin fonksiyon yazabilir, bir arada kullanabilirsiniz
+```{r,eval=FALSE}
+# ana fonksiyon
+model.calistir <- function(par){
+  parametre.oku()
+  sunu.hesapla(par)
+  bunu.hesapla(par)
+  sonuclarimi.ciz()
+  ciktilari.yaz()
+}
+
+# sub-functions
+parametre.oku <- function(){...}
+sunu.hesapla <- function(par){...}
+bunu.hesapla <- function(par){...}
+sonuclarimi.ciz <- function(){...}
+ciktilari.yaz <- function(){...}
+
+
+
+model.calistir(par)
+```
+
+
+## Ornek
+  
+```{r}
+# Ikinci dereceden denklemin koklerini bulmak icin bir fonksiyon
+# Girdiler: denklemin katsayilari
+# Ciktilar: denklemin kokleri
+
+# a*x^2 + b*x + c = 0 
+denklem.coz <- function(a,b,c) {
+  diskriminant <- b^2 - 4*a*c
+  if (diskriminant < 0) {
+    warning("Kompleks kok!")
+    diskriminant <- as.complex(diskriminant)
+  }
+  return(c((-b+sqrt(diskriminant))/2*a, 
+           (-b-sqrt(diskriminant))/2*a))
+}
+denklem.coz(1,0,-1)
+denklem.coz(1,0,1)
+```
+
+## Birkac not:
+
+- Fonksiyon yazmak, daha sonra hata ayiklamada kolaylik saglar:
+    + fonksiyondaki bir hata her yere yayilir _ama_ hatayi duzeltmeniz gereken sadece bir yer vardir
+    
+Hata ayiklarken yardimci olabilecek birkac kontrol noktasi:         
+
+- Parentez uyumu
+- `[[` ... `]]` vs. `[` ... `]`
+- `==` vs. `=`   
+- Kapsam kurallari
+- Karsilastirmalar (orn. `identical`, `all.equal`)
+- Sessiz tur degisimleri (matris -> vektor)
+
+## Uygulama 2
+
+> Fonksiyon yazimi: 2. Uygulamanizi 'U2.Rmd' dosyasinda bulabilirsiniz.
+ 
+
+
+
+
+
+
+
+
+
+
