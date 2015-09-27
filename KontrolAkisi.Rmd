@@ -1,0 +1,185 @@
+---
+title: "Kontrol Akisi"
+author: "Matematiksel Evrim Yaz Okulu"
+date: "7 Eylul 2015"
+output: beamer_presentation
+---
+
+##Oturum programi
+
+- Kontrol akisi    
+    + Kosul yapilari
+    + Donguler
+    
+
+## Kosul yapilari:
+
+
+\[
+|x| = \left\{ \begin{array}{cl} x & \mathrm{if}~x\geq 0 \\
+-x &\mathrm{if}~ x < 0\end{array}\right. ~,~ 
+\psi(x) = \left\{ \begin{array}{cl} x^2 & \mathrm{if}~|x|\leq 1\\
+2|x|-1 &\mathrm{if}~ |x| > 1\end{array}\right.
+\]
+
+## if()
+
+```{r}
+x <- -5               ##  Genel yapi
+                      ##                  
+if (x >= 0) {         ##  if (kosul){
+  x                   ##       komut1
+} else {              ##  } else { 
+  -x                  ##       komut2
+}                     ##  }
+```
+
+`else` opsiyonel
+
+Bir satirlik hesaplamalarda kume parantezlerine gerek yok:
+```
+if (x >= 0) x else -x
+```
+
+## Icice if()
+
+```{r, eval=FALSE}
+if (x^2 < 1) {
+  x^2                   # KomutA1
+} else {
+  if (x >= 0) {         # KomutA2
+    2*x-1               #              ## KomutB1
+  } else {              #
+     -2*x-1             #              ## KomutB2
+  }
+}
+```
+-or-
+```{r, eval=FALSE}
+if (x^2 < 1){
+  x^2 
+ } else if (x >= 0) {
+  2*x-1 
+ } else  -2*x-1 
+```
+
+## ifelse()
+
+`ifelse`, if-else yapisinin **vektorize** halidir.  
+
+```
+ifelse(kosul, komut1, komut2)
+```
+Kosul `TRUE` dondururse birinci, `FALSE` dondururse ikinci komut calistirilir:
+```{r}
+ifelse(x^2 > 1, 2*abs(x)-1, x^2)
+```
+
+## ifelse ()
+Iki secenekli bir islem gerceklestirmek istiyorsaniz ya da girdi ve cikti olarak vektor kullanmak istiyorsaniz `ifelse()`'i kullanabilirsiniz:
+```{r}
+v <- c(-1,2,1/4)
+ifelse(v^2 > 1, 2*abs(v)-1, v^2)
+```
+`ifelse()` yerine asagidaki komutu kullansaydik ne olurdu?
+```{r,eval=FALSE}
+if (v^2 > 1) 2*abs(v)-1 else v^2
+```
+
+
+```{r tofix, echo=FALSE, eval=FALSE}
+for(i in 1:length(v)){
+ print(if (v[i]^2 > 1) 2*abs(v[i])-1 else v[i]^2)
+} 
+
+```
+
+## Kontrol yapilari ve mantiksal islecler 
+
+`&` ve `|` vektorize operatorlerdir (vektorler uzerinde calisip, vektor dondurebilirler):
+```{r}
+((-2:2) >= 0) & ((-2:2) <= 0)
+```
+
+`&&` ve `||` soldan saga, vektordeki sadece ilk elemana bakar: 
+```{r}
+((-2:2) >= 0) && ((-2:2) <= 0)
+```
+
+## 
+
+```{r}
+v <- c(-1,2,3,1/4)
+ifelse(v^2 > 1 & v!=2 , 2*abs(v)-1, v^2)
+ifelse(v^2 > 1 && v!=2 , 2*abs(v)-1, v^2) 
+if (v^2 > 1 & v!=2) 2*abs(v)-1 else v^2
+if (v^2 > 1 && v!=2) 2*abs(v)-1 else v^2 # uyari yok!
+```
+
+
+
+## for() dongusu
+
+`for` dongusu, dizideki tum degerler bitene kadar komutu calistirir. 
+```
+for (bir dizi deger) komut
+```
+```{r}
+for (i in 1:3)  print(paste("Hello",i,sep=""))
+```
+
+## for() dongusu
+
+`for()` dongusunun icinde hemen her turlu kod olabilir: baska `for()` donguleri, `if()` yapilari vb. 
+
+```{r}
+# 1'den 10'a kadar cift sayilardan olusan bir vektor 
+z <- NULL
+for (i in 1:10) if (i%%2 == 0) z <- c(z,i)
+z
+```
+
+## Mini Egzersiz
+
+1. 2x3'luk bir 0 matrisi olusturun.
+\vspace{\baselineskip}
+2. `for()` dongusu kullanarak matris elemanlarini 1'den 6'ya kadar doldurun.
+
+
+## while() dongusu
+
+`while` dongusu, bir kosul artik gecerli olmayincaya kadar komutlari calistirir: 
+```
+while (kosul) komut
+```
+```{r}
+i <- 3
+while (i > 0) {
+  print(paste("Hello",i,sep=""))
+  i <- i - 1
+}
+```
+> Dongunun kosul `TRUE` dondurmedikce baslamayacagina dikkat edin. 
+
+## Donguyu en az bir kez dondurmek icin:
+
+`repeat{}` komutunu kullanabilir, kosulu bu yapinin icinde `if()` ile kontrol edip, kosul saglanmadigindaysa `break` ile donguden cikabilirsiniz:
+
+```{r}
+i <- 3
+repeat{
+  print(paste("Hello",i,sep=""))
+  i <- i- 1
+  if(i<3) break   # donguden cik
+}
+```
+
+## for() vs. while()
+
+- Ayni komutu kac kez calistirmak istediginiz onceden belliyse `for()` dongusunu kullanabilirsiniz
+\vspace{\baselineskip}
+- Eger komutu kac kere calistiracaginizdan emin degilseniz ama nereye gelince durmak istediginizi biliyorsaniz `while()` dongusunu kullanabilirsiniz.
+
+> Eger alternatifi mumkunse donguleri kullanmayin. Kullanabildiginiz yerde R'in `apply()` gibi yerlesik vektorize fonksiyonlarini tercih edin. Buyuk verilerle calisiyorsaniz, donguler R'i son derece yavaslatabilir.
+
+
