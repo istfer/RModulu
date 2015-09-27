@@ -3,6 +3,8 @@
 
 2015 Eylul ayinda, Nesin Matematik Koyu Sirince'de gerceklestirilen Matematiksel Evrim Yaz Okulu, R Modulu esnasinda takip ettigimiz ders notlarini burada bulabilirsin.
 
+R'la ilk kez tanisan veya yeni baslamis kisiler bu notlardan faydalanabilirler.
+
 Eger henuz bilgisayarinda R ve RStudio yuklu degilse, "kurulum.Rmd" dosyasindaki aciklamalari okuyarak ise baslayabilirsin.
 
 Bizim yaz okulu esnasinda takip ettigimiz sira su sekildeydi:
