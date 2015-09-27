@@ -1,0 +1,162 @@
+---
+title: "R’a başlangıç"
+author: "Matematiksel Evrim Yaz Okulu"
+date: "6-13 Eylül 2015"
+output: pdf_document
+---
+
+
+Bu bir R Markdown dosyasi. Markdown, HTML, PDF ve MS Word gibi bircok dosya turunu olusturmani mumkun kilan bir sozdizimi islemcisi. R Markdown'a dair detaylar icin bu sayfaya goz gezdirebilirsin:  <http://rmarkdown.rstudio.com>
+
+Biz de R markdown'u uzerinde calisacagimiz R kodlarini, yazili aciklamalarla birlikte paylasmak icin kullanacagiz.
+
+Bu dosyanin amaci, R'a ufak bir baslangic yapmani saglamak.
+
+Bu dosyayi R Studio'da actigin pencerenin ismi **"kaynak paneli"** (source pane). Burada R markdown ve betik (script) dosyalarini acip, duzenleyip, calistirip, kaydedebilirsin.
+
+Bu pencerenin altindaysa **konsol** (console) panelini goreceksin. R kodlarini buraya yazip dogrudan calistirabilir, ciktilarini gorebilirsin.
+
+Sag ustte ise **ortam/gecmis** (environment/history) paneli bulunuyor. Burada yarattigin degiskenlerin bir listesini ve gecmis komutlarini gorebilirsin.
+
+Son olarak sag altta da **dosyalar/grafikler/paketler/yardim** (files/plots/packages/help) paneli var, burada pencereler arasinda gezinebilir, ilgili islemleri gerceklestirebilirsin.
+
+En yukaridaki (RStudio/File/Edit/Code/View/Plots/Session/Build/Debug/Tools/Window/Help basliklarini iceren) **arac cubugundan** ise yeni dosyalar olusturabilir, calistigin klasoru degistirebilir ve daha bircok araca erisebilirsin.
+
+## Basit aritmetik islemler
+
+Simdi basit aritmetik islemler icin R kodlarina bir goz atalim. 
+
+[Bunu simdilik bilmene gerek yok ama asagidaki kod parcasini buraya eklemek icin kaynak panelinin sag ust kosesindeki "Chunks" menusunden "Insert Chunk" komutunu secip kullanabilirsin.]
+
+Asagidaki orneklerdeki kare isareti (#) kodlarin icine yorum eklemeni saglar. #'nden sonra gelen hicbir sey R tarafindan okunmaz ve calistirilmaz.
+
+Simdi asagida gordugun kodlari, komut istemci isareti ">"den sonra konsola yazip entera bas:
+
+```{r}
+3+12            ## toplama
+5 - pi            ## cikarma
+2*8               ## carpma
+14/5                ## bolme
+14 %/% 5          ## tam sayi boleni
+14 %% 5         ## modulus (bolmeden kalani verir)
+sqrt(25)          ## karekok
+
+# bir degiskene sayi atamak icin esittir (=) isaretini kullanabilirsin
+z = 5  
+# veya ok isaretini:
+z <- 5
+
+# bir degiskenin degerini, degiskenin kendisini cagirarak ogrenebilirsin
+z
+
+y = sqrt(36)    
+y
+```
+
+Bu ornekler bize R hakkinda bazi bilgiler verdi bile. Oncelikle R, $\pi$ gibi bazi sabitlerin degerini biliyor ve onlari sayilar gibi kullanabiliyor. Ayrica degiskenlere hem sabit bir deger, hem de fonksiyonlarin ciktilarini atayabilirsin. Buradaki `sqrt()` fonskiyonunda gordugumuz gibi, fonksiyonlara degerleri parantezler icerisinde iletiyoruz. Fonksiyona gecen bu degerlere, fonksiyonlarin "bagimsiz degisken"i (argument) diyoruz.
+
+R'daki diger bazi matematik islecleri de soyle:
+
+```{r}
+10^2                    ## ust
+exp(1)                    ## ustel fonksiyon
+log(10)                 ## dogal logaritma
+log10(10)                 ## 10 tabaninda log
+log2(10)            ## 2 tabaninda log
+sin(pi/2)                 ## sinus
+cos(pi)                 ## kosinus
+factorial(10)             ## faktoriyel
+
+# duzenli diziler olusturmak icin seq() fonksiyonunu kullanabilirsiniz
+seq(1,10,2) 
+```
+
+Burada `seq()` fonksiyonunun uc bagimsiz degisken aldigini goruyoruz. R'da birden fazla bagimsiz degisken alabilen bircok fonskiyon bulunur ve bu degiskenler her zaman virgulle birbirinden ayrilir. R'da bir fonksiyon hakkinda bilgi almak icin konsola soru isareti koyup ardindan fonksiyonun ismini yazarsan sag alt pencerede ilgili yardim sayfasinin acildigini goreceksin:
+
+```{r}
+?seq
+```
+Buradan ogrendigimiz uzere `seq()` fonksiyonuna parantez icinde verdigimiz ilk sayi dizinin baslangic noktasi (from), ikincisi bitis noktasi (to), ucuncusu ise dizinin kacar kacar artmasini istedigimizi belirten sayi (by). `seq()` fonksiyonunun baska degerler alabildigini de goruyoruz, ornegin dizinin artim basamagi yerine, baslangic ve bitis arasinda kac sayi istedigimizi de soyleyebiliriz:
+
+```{r}
+# asagidaki komutla 1'den 10'a kadar esit araliklarla 4 sayi uretebiliriz
+seq(1,10,length=4)
+
+# peki ya son sayiyi "length" argumanina atadigimizi ozellikle belirtmeseydik ne olurdu?
+seq(1,10,4)
+
+# neden? ;)
+```
+
+
+## Paket yukleme
+
+R'da bircok fonksiyon ve veri ayri paketler icinde bulunur. R'i ilk yuklediginde ve actiginda, temel paketler yuklu halde gelir ve kullanmak icin onlari cagirman yeterlidir. Ancak daha ozellesmis fonksiyonlari kullanmak istersen bu paketleri indirmen ve yuklemen gerekir.
+
+Sag alttaki panelde "Packages" (Paketler) tabini acarsan kutuphanende bulunan paketlerin bir listesini goreceksin. Bunlarin yanindaki kutucuk isaretlenmisse paket kullanima hazirdir (ornegin "graphics" paketi). Aradigin paket bu listede yoksa once indirmen gerekiyor. Bunu iki sekilde yapabilirsin:
+
+1 - Packages penceresinde, sol ustte "install" butonuna basinca acilan pencerede, packages bosluguna indirmek istedigin paketin adini yazip "install" diyebilirsin. Ornegin "reshape2" paketini bu sekilde yukleyebilirsin.
+
+2 - Konsola asagidaki komutu yazarsan, R indirmeye baslayacaktir:
+
+```{r, eval=FALSE}
+# eger henuz tanimlanmamissa, R bir yansitma girmeni isteyebilir
+# bunu verigi hata mesajindan anlayabilirsin
+# o zaman basindaki kare isareti olmadan asagidaki komutu kullanabilirsin:
+# options(repos=c(CRAN="http://cran.pau.edu.tr/"))
+install.packages("reshape2")
+```
+
+Paketi indirdikten sonra kullanabilmek icin cagirman gerekiyor. Indirdigin paketi sistem kutuphanendeki listede goreceksin, az once belirttigimiz gibi yanindaki kutucuga tik atarak paketi cagirabilir ve kullanima hazir hale getirebilirsin.
+
+Diger bir yontemse konsola asagidaki komutu yazmak:
+
+```{r,eval=FALSE}
+library(reshape2)
+```
+
+Ozellikle R betikleri yazarken bu komutlari kullanarak paketleri cagiracagiz. Simdi senden asagidaki paketleri indirmeni rica ediyoruz: 
+
+
+```{r, eval=FALSE}
+# Bu komutlari kopyalayip konsola yapistirman yeterli 
+# ya da imlecini buraya tiklayip "Chunks" menusunden "Run Current Chunk" diyebilirsin
+install.packages("reshape2")
+install.packages("car")
+install.packages("gplots")
+install.packages("ggplot2")
+install.packages("RColorBrewer")
+install.packages("rworldmap")
+install.packages("popbio")
+install.packages("deSolve")
+install.packages("gvlma")
+install.packages("MASS")
+install.packages("raster")
+install.packages("rasterVis")
+install.packages("DAAG")
+install.packages("leaps")
+install.packages("lattice")
+install.packages("gcookbook")
+install.packages("maps")
+```
+
+Bu paketleri indirdikten sonra sorunsuzca cagirabildiginden de emin ol:
+```{r, eval=FALSE}
+library("reshape2")
+library("car")
+library("gplots")
+library("ggplot2")
+library("RColorBrewer")
+library("rworldmap")
+library("popbio")
+library("deSolve")
+library("gvlma")
+library("MASS")
+library("raster")
+library("rasterVis")
+library("DAAG")
+library("leaps")
+library("lattice")
+library("gcookbook")
+library("maps")
+```
