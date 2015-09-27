@@ -6,8 +6,8 @@
 Eger henuz bilgisayarinda R ve RStudio yuklu degilse, "kurulum.Rmd" dosyasindaki aciklamalari okuyarak ise baslayabilirsin.
 
 Bizim yaz okulu esnasinda takip ettigimiz program su sekildeydi:
-(Kurulum.Rmd)
-(Baslangic.Rmd)
+- (kurulum.Rmd)
+- (Baslangic.Rmd)
 - R'a Giris
 - Veri Turleri
 - Kontrol Akisi
