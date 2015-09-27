@@ -533,7 +533,7 @@ g + theme(legend.position="top")
 ```{r}
  # Gosterge basligini "Deney" koymak icin
 g + labs(fill="Deney")
-# Gostergeyi kaldirmak isterseniz
+# Basligi kaldirmak isterseniz
 # g + guides(fill=guide_legend(title=NULL))
 ```
 
