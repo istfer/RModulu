@@ -1,0 +1,54 @@
+---
+title: "Uygulama 2"
+author: "Matematiksel Evrim Yaz Okulu"
+date: "7 Eylul 2015"
+output: pdf_document
+---
+**Lojistik buyume modeli**
+
+- Buyume hizinin populasyon yogunluguna bagli oldugu bir populasyon dusunun.
+
+- Dogada bircok populasyon, tasima kapasitesi, _K_ olarak bilinen gorece kararli bir seviyeye kadar artar.
+
+
+<p>
+<center>
+<latex>
+\[ 
+\frac{dN}{dt} = rN \left(1- \frac{N}{K} \right) 
+\]
+</latex>
+</center>
+<p>
+_K_: tasima kapasitesi        
+_r_: buyume hizi     
+_N_: populasyon buyuklugu    
+
+**Uygulama** Baslangic populasyon buyuklugunu, buyume hizini, tasima kapasitesini ve toplam zaman adimini girdi olarak alan, ve yukaridaki denkleme gore populasyon buyuklugunu hesaplayan bir fonksiyon yazin.
+
+
+
+```{r=Pseudocode,eval=FALSE}
+# Lojistik buyume modeli - Pseudocode
+# Girdiler:
+#        N0 - Baslangic populasyonu
+#         r - buyume hizi
+#         K - tasima kapasitesi
+#         t - zaman adimi
+# Cikti: Her adimda populasyon buyuklugunu tutan bir vektor 
+
+lojistik.model <- function (...){
+  
+  # toplam zaman adimi kadar elemani bulunan 
+  # ve ilk elemanini N0 ile baslayan bir vektor tanimlayin
+  ... <- ...
+  
+  # her adimda (ayrik olarak) lojistik buyume denklemine gore yeni populasyon buyuklugunu hesaplayin
+  for (...){
+    ... <-  ...
+  }
+  return(...)          
+}
+```
+
+
