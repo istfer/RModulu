@@ -1,0 +1,73 @@
+---
+title: "Cozum 2"
+author: "Matematiksel Evrim Yaz Okulu"
+date: "7 Eylul 2015"
+output: pdf_document
+---
+**Lojistik buyume modeli**
+
+- Buyume hizinin populasyon yogunluguna bagli oldugu bir populasyon dusunun.
+
+- Dogada bircok populasyon, tasima kapasitesi, _K_ olarak bilinen gorece kararli bir seviyeye kadar artar.
+
+
+<p>
+<center>
+<latex>
+\[ 
+\frac{dN}{dt} = rN \left(1- \frac{N}{K} \right) 
+\]
+</latex>
+</center>
+<p>
+_K_: tasima kapasitesi        
+_r_: buyume hizi     
+_N_: populasyon buyuklugu    
+
+**S** Baslangic populasyon buyuklugunu, buyume hizini, tasima kapasitesini ve toplam zaman adimini girdi olarak alan, ve yukaridaki denkleme gore populasyon buyuklugunu hesaplayan bir fonksiyon yazin.
+
+
+
+```{r}
+# Lojistik buyume modeli - Pseudocode
+# Girdiler:
+#        N0 - Baslangic populasyonu
+#         r - buyume hizi
+#         K - tasima kapasitesi
+#         t - zaman adimi sayisi
+# Cikti: Her adimda populasyon buyuklugunu tutan bir vektor 
+
+lojistik.model <- function (N0, r, K, t){
+  
+  N <- c(N0, rep(NA, t))
+  for (i in 1:t){
+    N[i+1] <- N[i] + N[i] * r * (1 - N[i] / K) 
+  }
+  return(N)          
+}
+```
+
+
+Modelimizi calistiralim:
+```{r}
+
+pop  <- lojistik.model(N0 = 3, r=1.2, K=50, t = 10)
+pop
+
+plot(pop,type="l",col = "green",
+     main="Buyume", xlab = "Zaman", ylab ="Pop. Buyuklugu")
+```
+
+
+```{r}
+# Farkli K'lerle modeli calistirdigimda:
+Kvec = c(50,60,70,80)
+
+plot(pop,ylim=c(2,80))
+for(i in 1:length(Kvec)){
+  pop <- lojistik.model(N0 = 3, r=1.2, t = 10, K=Kvec[i])
+  lines(pop,col=colors()[Kvec[i]])
+} 
+```
+
+
