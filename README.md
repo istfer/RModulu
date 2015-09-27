@@ -16,7 +16,7 @@ Bizim yaz okulu esnasinda takip ettigimiz sira su sekildeydi:
 - Fonksiyonlar
 - Temel Gorsellestirme
 
-Ders notlarini, kendi bilgisayarinda calisirken, ilgili kodlari calistirmadan once "Veriler" klasorundeki KunduzPop.csv ve TranskriptomVerisi.txt veri dosyalarinin calisma klasorunde oldugunu kontrol etmeyi unutma.
+Ders notlarini kendi bilgisayarinda calisirken, ilgili kodlari calistirmadan once "Veriler" klasorundeki KunduzPop.csv ve TranskriptomVerisi.txt veri dosyalarinin calisma klasorunde oldugunu kontrol etmeyi unutma.
 
 Bu notlarin hazirlanmasinda yararlanilan kaynakca ve daha fazla R bilgisi icin "Kaynakca.txt" dosyasina goz atabilirsin.
 
