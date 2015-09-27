@@ -17,3 +17,8 @@ Bizim yaz okulu esnasinda takip ettigimiz program su sekildeydi:
 Ders notlarini, kendi bilgisayarinda calisirken, ilgili kodlari calistirmadan once "Veriler" klasorundeki KunduzPop.csv ve TranskriptomVerisi.txt veri dosyalarinin calisma klasorunde oldugunu kontrol et.
 
 Bu notlarin hazirlanmasinda yararlanilan kaynakca ve daha fazla R bilgisi isin "Kaynakca.txt" dosyasina goz atabilirsin.
+
+R'a keyifli bir baslangic dilerim.
+
+Istem
+Eylul, 2015
