@@ -1,0 +1,349 @@
+---
+title: "R’a Giris"
+author: "Matematiksel Evrim Yaz Okulu"
+date: "7 Eylul 2015"
+output: beamer_presentation
+---
+
+
+
+##Oturum programi
+- R ortami
+\vspace{\baselineskip}
+- R sozdizimi (syntax)
+\vspace{\baselineskip}
+- Temel R komutlari
+\vspace{\baselineskip}
+- Veri okuma/yazma
+
+##Neden programlama?
+
+- **Neden olmasin?** Programlama biyologlarin/ekologlarin kullandigi diger yontemlerden daha zor degil. 
+\vspace{\baselineskip}
+- Analizlerin icin bir baskasina muhtac olmak yerine araclari kendin kullanabilmen sana **bagimsizlik** tanir.
+\vspace{\baselineskip}
+- Programlama, dusuncelerini ve yontemlerini bir **cerceveye** oturtmana yardimci olur
+\vspace{\baselineskip}
+- Programlama, calismalarini meslektaslarinla kolaylikla **paylasabilmeni** ve biliminin **yeniden uretilebilir** olmasini saglar 
+
+
+
+
+##Neden R?
+
+
+- Biyoloji ve ekoloji alaninda yararlanilan **gelismis** hesaplamali ve istatistiksel bircok yontemi kullanmaniza olanak tanir.
+
+- **Guclu**, **etkili** ve **kolay** veri yonetimi saglar.
+
+- **Kaliteli** ve **esnek** grafik cizimler uretebilir.
+
+- **Yaygin** bir sekilde kullanildigi icin sorulariniza cevap bulma sansiniz fazladir, **iletisim kolayligi** saglar, siklikla diger araclarla **entegrasyonu** mumkundur.
+
+- **Ucretsiz** ve **acik kaynak**, ayrica pek cok isletim sisteminde sorunsuzca calisabilir.
+
+
+
+##Bu modulun isleyisi:
+
+
+
+- Gecmis programlama bilgisi gerekmiyor
+\vspace{\baselineskip}
+- Konular birbirine eklenerek ilerleyecek
+\vspace{\baselineskip}
+- R markdown dosyalari uzerinden anlatim
+\vspace{\baselineskip}
+- Kod yazimi, egzersizler, uygulamalar
+
+
+
+##Baslayalim!
+
+RStudio, R'a ozel interaktif bir arayuz.
+
+- **Arac cubugu** (toolbar): Yeni dosyalar olusturma, calisma klasorunu degistirme vb.
+
+```{r,eval=FALSE}
+# calismakta oldugum dizinin erisim yolu
+getwd() 
+
+# calismak istedigim dizinin erisim yolu
+setwd("/calismak/istedigim/dizinin/erisim/yolu") 
+```
+
+
+
+##Baslayalim!
+
+RStudio, R'a ozel interaktif bir arayuz.
+
+- **Arac cubugu** (toolbar): Yeni dosyalar olusturma, calisma klasorunu degistirme vb.
+
+- **Konsol** (console): R kodlarini dogrudan ve satir satir calistirma vb.
+
+- **Dosyalar/grafikler/paketler/yardim paneli** (files/plots/packages/help) 
+- **Ortam/Gecmis paneli** (environment/history): Yaratilmis olan degiskenler, gecmis komutlar vb.
+
+- **Kaynak paneli** (source pane): R markdown ve betik (script) dosyalarini duzenleme, calistirma, kaydetme vb.
+
+
+##Deneyin:
+
+
+1. (Henuz olusturmadiysaniz) Bilgisayarinizda bu yaz okulu icin bir dizin olusturun. 
+
+2. Olusturdugunuz dizinde "Gun1" alt dizini yaratin.
+
+3. RStudio'da calisma dizininizi bu alt dizin (Gun1) olarak tanimlayin.
+
+4. Yeni bir R betigi (script) olusturun. 
+
+5. Asagidaki kodu betik dosyasina kopyalayip yapistirin:
+
+```{r, eval=FALSE}
+for(i in 3:1){
+  print(i)
+  Sys.sleep(1)
+} 
+print("Merhaba dunya!")
+```
+
+6. R betiginizi "Gun1" dizinine kaydedin ve calistirin (source).
+
+##Veri tipleri
+
+R'da bircok veri tipi bulunur: vektorler, matrisler, veri cerceveleri (data frames), listeler etc. (hepsine bir sonraki oturumda daha detayli deginecegiz!)
+
+```{r}
+# skalar
+s <- 4 
+
+# numerik vektor 
+v <- c(1,2,5.3,6,-2,4)
+
+# 3 x 4 numerik matris 
+m <- matrix(1:12, nrow=3,ncol=4)
+m
+```
+
+##Diger bazi veri tipleri...
+
+
+- **Mantiksal islecler** (Booleans): `TRUE` (DOGRU) veya `FALSE` (YANLIS)
+
+- **Eksik veya tanimsiz degerler**: `NA`, `NaN`, vb.
+
+- **Karakterler**:
+```{r}
+# karakter vektor
+v <- c("bir","iki","uc") 
+v
+```
+
+
+##Fonksiyonlar
+
+
+
+Yerlesik fonksiyonlar:
+
+
+```{r, eval=FALSE}
+mean(c(0:10, 50))   #   =8.75
+log10(1e7)    #  =7
+```
+```{r}
+plot(sin, -pi, 4*pi)
+```
+
+
+##Fonksiyonlar
+
+
+
+
+Kullanici taminli fonksiyonlar:     
+
+>fonksiyonum <- function(arg1, arg2, ... ){     
+komutlar     
+return(nesne)     
+}
+
+
+
+##Yaygin islemler
+
+
+```{r,eval=FALSE}
+7+5 # Toplama
+7-5 # Cikarma
+7*5 # Carpma
+7/5 # Bolme
+7^5 # Ust
+7 %% 5 # Mod (kalan)
+7 %/% 5 # Tam bolen
+sqrt(25) # Karekok
+exp(1) # Ustel fonksiyon
+log(10) # Dogal logaritma
+log10(10) # 10 tabaninda log
+sin(pi/2) # Sinus
+cos(pi) # Kosinus
+factorial(10) # Faktoriyel
+```
+
+##Yaygin islemler
+
+
+Karsilastirmalar: 
+```{r}
+7 > 5 # Buyuktur
+7 <= 5 # Kucuk esittir
+7 == 5 # Esittir
+7 != 5 # Esit degildir
+```
+
+##Yaygin islemler
+
+
+Mantiksal isleclerle karsilastirmalar:
+```{r}
+(5 > 7) & (6*7 == 42)
+(5 > 7) | (6*7 == 42)
+```
+
+##Verileri isimlendirme
+
+
+Veri nesnelerine isim verebiliriz; bunlara **degisken** diyoruz.
+
+R'da bazi degiskenler yerlesik olarak bulunur:
+```{r}
+pi
+```
+
+Degiskenleri fonksiyonlarda veya islemlerde kullanabiliriz:
+```{r}
+pi*10
+cos(pi)
+```
+
+##Yeni degisken atama
+
+
+**atama operatoru** `<-` veya `=`  
+```{r}
+pi.yaklasik <- 22/7
+pi.yaklasik
+```
+> ONEMLI: Degiskenlerinize anlasilir ve acik isimler vermeye ozen gosterin! 
+
+##Calisma ortami
+
+Calisma ortaminda su ana kadar yarattigimiz degiskenler neler?
+```{r}
+ls() 
+objects()
+```
+
+Degiskenleri silmek icin:
+```{r}
+rm("pi.yaklasik")
+ls()
+rm(list=ls()) # hepsini sil
+```
+
+##RStudio ipuclari
+
+Tus | Aciklama
+----------|-------------
+`<tab>` | komutlari ve dosya isimlerini otomatik tamamlar
+`<yukari>` | konsola girdiginiz onceki komutlara geri doner 
+`<ctrl-yukari>` | onceki komutlarin gecmisini listeler
+`<ctrl-enter>` | siradaki satiri kaynak panelinden konsoldan calistirir
+`<ESC>` | henuz bitmemis olan komutu sonlandirir
+
+##R Veri tablolari
+
+- R nesnelerini, R'in kendi formatinda kaydedebilir, geri yukleyebilirsiniz.
+
+```{r,eval=FALSE}
+# kaydetmek icin
+save(BenimVerilerim, file="BenimVeriDosyam.Rda")
+
+# yuklemek icin 
+load("BenimVeriDosyam.Rda")
+```
+- Yukleme komutuyla `BenimVerilerim` veri nesnesi **eski ismi** ve yapisiyla calisma ortamina geri gelir. 
+
+- Yuklemek icin ayni dizinde olmaniz veya dosyanin basina dizin erisim yolunu yazmaniz gerekir.
+
+##Duz metin dosyalari
+
+- R (Excel tablolarina kiyasla daha) derli toplu olan duz metin dosyalarini sever.
+\vspace{\baselineskip}
+- Daha az yapilandirilmis bu dosyalar daha cok yer tutsa da bir cok kelime islemci program tarafindan okunabilirler. 
+\vspace{\baselineskip}
+- Yakin gelecekte gecersiz bir veri formati olacaga benzemiyorlar.
+\vspace{\baselineskip}
+- Ayrica dosyalardaki bir iki bitlik bozulma nedeniyle tumden kullanilamaz hale gelme sanslari daha dusuktur. 
+
+
+## Duz metin: okuma/yazma
+
+- `read.table()`:
+    + Alanlarin boslukla (space) aralandirilmis, her sira icin bir satir oldugunu var sayar
+    + Ana degisken olarak dosyanin ismini veya URL'sini kabul eder
+    + **Veri cercevesi** (dataframe) dondurur
+    + Bircok opsiyon tanimlanabilir: alan ayiraci, sutun basliklari, varsa dosya basinda okunmadan atlanilmasi istenen satir sayisi vb.
+    
+- `read.csv()`, `read.table()`'in secenekleri dogrudan virgulle-ayrilmis alanlari (comma-separated values - CSV) okumaya ayarlanmis kisa yoludur
+    + Excel CSV dosyalarini okuyup yazabilir
+    
+- Yazmak icin benzer sekilde: `write.table()` ve `write.csv()` 
+
+##Ornek: Transkriptom verisi
+
+1. Calisma dizinimizi kontrol edelim, gerekirse degistirelim.  
+```{r,eval=FALSE}
+getwd()
+setwd()
+```
+2. Calisma dizinimizdeki dosyalari listeleyelim.
+```{r,eval=FALSE}
+list.files()
+```
+3. "TranskriptomVerisi.txt" dosyasini okuyalim
+```{r,eval=FALSE}
+TransVer <- read.table("TranskriptomVerisi.txt",
+                       header=T,row.names = 1)
+```
+    
+## Egzersiz: Kunduz verisi
+
+1. KunduzPop.csv dosyasini R'a okutun.
+```{r,eval=FALSE}
+?read.table
+?read.csv
+```
+
+2. `tab` ayiracli ve .txt uzantili olarak yazin.
+
+```{r,eval=FALSE}
+?write.table
+```
+## Oturumu kaydetmek icin
+
+Oturum boyunca yazmis oldugunuz komutlari (bulundugunuz calisma dizinine) kaydetmek icin `savehistory()` komutunu kullanabilirsiniz:
+```{r,eval=FALSE}
+savehistory("yazokulu_gun1_1.txt")
+```
+Oturum sonunda, calisma ortaminizda kalan veri nesnelerinin tamamini kaydetmek icin asagidaki komutu kullanabilirsiniz:
+```{r,eval=FALSE}
+save(list=ls(),file="ROturumu_gun1_1.RData")
+```
+Ya da nesnelerin hepsini degil bazilarini kaydetmek icin:
+```{r,eval=FALSE}
+save(m,s,v,file="ROturumu_gun1_1.RData")
+```
+
