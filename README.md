@@ -1,7 +1,7 @@
 # RModulu
 2015 Matematiksel Evrim Yaz Okulu - R Modulu Ders Notlari
 
-2015 Eylul ayinda, Nesin Matematik Koyu Sirince'de gerceklestirilen Matematiksel Evrim Yaz Okulu, R Modulu esnasinda takip ettigimiz ders notlarini burada bulabilirsin.
+2015 Eylul ayinda, Nesin Matematik Koyu Sirince'de gerceklestirilen Matematiksel Evrim Yaz Okulu (https://matematikselevrim2015.wordpress.com), R Modulu esnasinda takip ettigimiz ders notlarini burada bulabilirsin.
 
 R'la ilk kez tanisan veya yeni baslamis kisiler bu notlardan faydalanabilirler.
 
