@@ -24,5 +24,5 @@ Bu depoyu (repository) oldugu gibi bilgisayarina indirip calismaya baslamak icin
 
 R'a keyifli bir baslangic dilerim.
 
-Istem
+
 Eylul, 2015
