@@ -5,7 +5,7 @@
 
 Eger henuz bilgisayarinda R ve RStudio yuklu degilse, "kurulum.Rmd" dosyasindaki aciklamalari okuyarak ise baslayabilirsin.
 
-Bizim yaz okulu esnasinda takip ettigimiz program su sekildeydi:
+Bizim yaz okulu esnasinda takip ettigimiz sira su sekildeydi:
 - (kurulum.Rmd)
 - (Baslangic.Rmd)
 - R'a Giris
