@@ -1,0 +1,105 @@
+---
+title: "Cozum 1"
+author: "Matematiksel Evrim Yaz Okulu"
+date: "7 Eylul 2015"
+output: pdf_document
+---
+
+1. Konsola `data()` yazin: Bu uygulama Edgar Anderson'in `iris` veri kumesini kullanacagiz.
+
+
+2. `head()` fonksiyonuyla veriyi inceleyin.
+
+```{r}
+head(iris) # ayrica bkz. tail()
+```
+
+3. `summary()` fonksiyonuyla veriyi incelemeye devam edin. (Bu fonksiyon genel bir fonksiyon olup R tarafindan eldeki nesnenin sinifina uygun sekilde uygulanir.)
+
+```{r, eval=FALSE}
+summary(iris)
+```
+
+**S1** Veriyi biraz daha inceleyelim:  
+
+ - `iris`'in bir veri cercevesi (dataframe) olup olmadigini kontrol edin.
+
+```{r}
+is.data.frame(iris)
+is.list(iris)
+```
+ 
+ - `iris` veri kumesinin boyutlari nedir?
+
+```{r}
+dim(iris)
+print(paste("Iris veri kumesinde",dim(iris)[1],"satir ve", dim(iris)[2],"sutun var"))
+str(iris)
+```
+
+ - Bu veri kumesinde kac adet farkli *Iris* turu var?
+
+```{r}
+levels(iris$Species)
+nlevels(iris$Species)
+print(paste("Iris verikumesinde",nlevels(iris$Species),"tur var."))
+```
+   
+
+
+**S2** Bu veri tabanindaki *Iris setosa*'lardan kacinin tac yapragi genisligi (petal width) 0.2 cm'den genis? tac yapragi genisligi 0.2 cm'den fazla olan *Iris setosa*'larin ortalama (mean) canak yapragi uzunlugu (sepal length) nedir? (uygun `*apply()` ailesinden birini kullanabilirsiniz)
+
+```{r}
+IrisSetosaBuyukTac <- iris[iris$Species=="setosa" & iris$Petal.Width > 0.2,]
+
+dim(IrisSetosaBuyukTac) 
+
+lapply(IrisSetosaBuyukTac, mean) 
+lapply(IrisSetosaBuyukTac, mean)$Sepal.Length
+```
+
+
+
+**S3** Aslinda `iris` ve `iris3` veri kumeleri ayni veriyi, farkli yapilarda iceriyor. `iris3` verikumesinden baslayarak, ilgili degisim ve donusumleri gerceklestirip `iris` yapisini elde etmeyi deneyin. 
+
+```{r}
+class(iris3) # iris3 bir array, iris bir veri cercevesidi
+str(iris3) # iris3 3 boyutlu, iris 2 boyutluydu
+
+# iris3'un boyutlari
+dimnames(iris3)
+
+##1. yol
+iris3Yeni <- data.frame(rbind(iris3[,,1],iris3[,,2],iris3[,,3]))
+
+colnames(iris3Yeni)
+colnames(iris)
+
+# Sutunlara da ayni isimleri verelim
+colnames(iris3Yeni) <- c("Sepal.Length", "Sepal.Width", "Petal.Length", "Petal.Width")
+
+# iris3Yeni'ye hala 5. bir sutun eklememiz lazim (Species)
+
+# Bir "Species" vektoru yaratalim
+Species <-c(rep("setosa",50),rep("versicolor",50),rep("virginica",50))
+
+iris3Yeni<-data.frame(iris3Yeni,Species)
+
+
+##2. yol
+
+Sepal.Length <-c(iris3[,1,])
+Sepal.Width <-c(iris3[,2,])
+Petal.Length <-c(iris3[,3,])
+Petal.Width <-c(iris3[,4,])
+
+iris3Yeni<-data.frame(Sepal.Length,Sepal.Width,Petal.Length,Petal.Width)
+
+Species <-c(rep("setosa",50),rep("versicolor",50),rep("virginica",50))
+
+iris3Yeni<-data.frame(iris3Yeni,Species)
+
+all.equal(iris,iris3Yeni)
+```
+
+
