@@ -1,0 +1,15 @@
+Yararlanilan kaynaklar ve ileri okumalar:
+
+Internet kaynaklari:
+
+Shalizi, C. R. and Thomas, A. C. (2014), “Statistical Computing 36-350: Beginning to Advanced Techniques in R”, http://www.stat.cmu.edu/~cshalizi/statcomp/14 
+Kabacoff, R., Quick-R, http://www.statmethods.net/ 
+R Graphics cookbook - http://www.cookbook-r.com/Graphs/ 
+EF Activities - https://github.com/EcoForecast/EF_Activities/blob/master/Exercise_01_RPrimer.Rmd
+
+Kitaplar:
+
+1.Norman Matloff, The Art of R Programming: A Tour of Statistical Software Design 
+2. Phil Spector, Data Manipulation with R
+3. Paul Teetor, The R Cookbook
+4. Robert I. Kabacoff, R in Action
