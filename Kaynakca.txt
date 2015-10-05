@@ -9,7 +9,7 @@ EF Activities - https://github.com/EcoForecast/EF_Activities/blob/master/Exercis
 
 Kitaplar:
 
-1.Norman Matloff, The Art of R Programming: A Tour of Statistical Software Design 
+1. Norman Matloff, The Art of R Programming: A Tour of Statistical Software Design 
 2. Phil Spector, Data Manipulation with R
 3. Paul Teetor, The R Cookbook
 4. Robert I. Kabacoff, R in Action
